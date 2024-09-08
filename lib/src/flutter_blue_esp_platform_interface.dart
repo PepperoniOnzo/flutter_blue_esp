@@ -1,3 +1,4 @@
+import 'package:flutter_blue_esp/src/models/device_dto.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_blue_esp_method_channel.dart';
@@ -23,7 +24,6 @@ abstract class FlutterBlueEspPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
-  }
+  Future<List<DeviceDto>?> scanDevices() =>
+      throw UnimplementedError('scanDevices() has not been implemented.');
 }

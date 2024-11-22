@@ -6,13 +6,15 @@ import com.example.flutter_blue_esp.constants.Configs
 import com.example.flutter_blue_esp.services.BleService
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** FlutterBlueEspPlugin */
-class FlutterBlueEspPlugin : FlutterPlugin, MethodCallHandler {
+class FlutterBlueEspPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
     private var bleService: BleService = BleService()
 
@@ -34,5 +36,21 @@ class FlutterBlueEspPlugin : FlutterPlugin, MethodCallHandler {
         Log.d(Configs.log.PLUGIN_TAG, "onDetachedFromEngine")
 
         channel.setMethodCallHandler(null)
+    }
+
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        bleService.attachActivity(binding.activity)
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+        bleService.detachActivity()
+    }
+
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        bleService.attachActivity(binding.activity)
+    }
+
+    override fun onDetachedFromActivity() {
+        bleService.detachActivity()
     }
 }

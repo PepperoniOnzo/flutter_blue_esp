@@ -23,7 +23,7 @@ void main() {
         .setMockMethodCallHandler(channel, null);
   });
 
-  test('getPlatformVersion', () async {
+  test('scanDevices', () async {
     expect(await platform.scanDevices(), []);
   });
 }

@@ -11,6 +11,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:8.1.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
     }
 }
 
@@ -24,6 +25,7 @@ allprojects {
 
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
+apply plugin: "kotlinx-serialization"
 
 android {
     if (project.android.hasProperty("namespace")) {
@@ -54,6 +56,7 @@ android {
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")
         implementation("com.github.espressif:esp-idf-provisioning-android:lib-2.2.1")
+        implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
     }
 
     testOptions {

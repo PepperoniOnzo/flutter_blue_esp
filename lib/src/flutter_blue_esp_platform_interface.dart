@@ -24,6 +24,6 @@ abstract class FlutterBlueEspPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<List<DeviceDto>?> scanDevices() =>
+  Future<List<DeviceDto>> scanDevices() =>
       throw UnimplementedError('scanDevices() has not been implemented.');
 }

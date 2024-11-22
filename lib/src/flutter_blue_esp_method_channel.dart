@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue_esp/src/constants/plugin_constants.dart';
@@ -12,13 +14,17 @@ class MethodChannelFlutterBlueEsp extends FlutterBlueEspPlatform {
   final methodChannel = const MethodChannel(ChannelConstants.channel);
 
   @override
-  Future<List<DeviceDto>?> scanDevices() async {
-    try {
-      await methodChannel.invokeMethod<Map<String, dynamic>>(
-          ChannelConstants.methodScanDevices, {"prefix": ""});
-    } on Exception catch (e) {
-      print('\u001b[32m $e\u001b[0m');
-    }
-    return [];
+  Future<List<DeviceDto>> scanDevices({String prefix = ''}) async {
+    final scanResult = await methodChannel.invokeMethod<String>(
+        ChannelConstants.methodScanDevices, {"prefix": prefix});
+
+    if (scanResult == null) return [];
+
+    final decodedResult = jsonDecode(scanResult) as List<dynamic>;
+
+    final devices =
+        decodedResult.map((json) => DeviceDto.fromJson(json)).toList();
+
+    return devices;
   }
 }

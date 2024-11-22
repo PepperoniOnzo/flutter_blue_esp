@@ -1,4 +1,3 @@
-import 'package:flutter_blue_esp/src/models/device_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_blue_esp/flutter_blue_esp.dart';
 import 'package:flutter_blue_esp/src/flutter_blue_esp_platform_interface.dart';
@@ -10,7 +9,7 @@ class MockFlutterBlueEspPlatform
     implements FlutterBlueEspPlatform {
   
   @override
-  Future<List<DeviceDto>?> scanDevices() => Future.value([]);
+  Future<List<DeviceDto>> scanDevices() => Future.value([]);
 }
 
 void main() {

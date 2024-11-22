@@ -20,6 +20,9 @@ object Configs {
             return "Called method without required argument: $argument"
         }
 
+        const val PERMISSIONS_NOT_GRANTED_CODE = "P1"
+        const val PERMISSIONS_NOT_GRANTED_MESSAGE = "Permissions not granted"
+
         const val START_SCAN_DEVICES_CODE = "S1"
         const val START_SCAN_DEVICES_MESSAGE = "Failed to start scan devices"
         const val FAIL_SCAN_DEVICES_CODE = "S2"

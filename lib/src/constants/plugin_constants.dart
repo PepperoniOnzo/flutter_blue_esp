@@ -2,4 +2,6 @@ abstract class ChannelConstants {
   static const String channel = 'flutter_blue_esp';
 
   static const String methodScanDevices = 'ScanDevices';
+  static const String methodScanDeviceWifi = 'ScanDeviceWifi';
+  static const String methodProvisionDevice = 'ProvisionDevice';
 }

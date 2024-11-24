@@ -1,4 +1,5 @@
 import 'package:flutter_blue_esp/src/models/device_dto.dart';
+import 'package:flutter_blue_esp/src/models/wifi_dto.dart.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_blue_esp_method_channel.dart';
@@ -26,4 +27,18 @@ abstract class FlutterBlueEspPlatform extends PlatformInterface {
 
   Future<List<DeviceDto>> scanDevices() =>
       throw UnimplementedError('scanDevices() has not been implemented.');
+
+  Future<List<WiFiDto>> scanDeviceWiFi({
+    required String deviceName,
+    required String proofOfPossession,
+  }) =>
+      throw UnimplementedError('scanDeviceWiFi() has not been implemented.');
+
+  Future<bool> provisionDevice({
+    required String ssid,
+    required String passphrase,
+    required String deviceName,
+    required String proofOfPossession,
+  }) =>
+      throw UnimplementedError('provisionDevice() has not been implemented.');
 }

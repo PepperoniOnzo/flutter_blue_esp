@@ -7,8 +7,29 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final TextEditingController proofOfPosController = TextEditingController();
+  final TextEditingController passphraseController = TextEditingController();
+
+  @override
+  void initState() {
+    proofOfPosController.text = 'abcd1234';
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    proofOfPosController.dispose();
+    passphraseController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +64,37 @@ class MyApp extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Scanned Devices:",
-                          style: Theme.of(context).textTheme.titleLarge,
+                        TextField(
+                          controller: proofOfPosController,
+                          decoration: const InputDecoration(
+                            hintText: 'Proof Of Possession',
+                          ),
                         ),
-                        const SizedBox(height: 10),
+                        TextField(
+                          controller: passphraseController,
+                          decoration: const InputDecoration(
+                            hintText: 'WiFi Passphrase',
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            "Scanned Devices:",
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ),
                         Expanded(
                           child: ListView.separated(
                             itemCount: state.devices.length,
                             separatorBuilder: (context, index) =>
                                 const SizedBox(height: 10),
                             itemBuilder: (context, index) => InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                context.read<MainBloc>().add(ScanDeviceWifi(
+                                    device: state.devices[index],
+                                    proofOfPossession:
+                                        proofOfPosController.text));
+                              },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -76,9 +116,34 @@ class MyApp extends StatelessWidget {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Expanded(
-                            child: ListView.builder(
-                          itemBuilder: (context, index) => Text('Network'),
-                        ))
+                          child: ListView.separated(
+                            itemCount: state.wifi.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 10),
+                            itemBuilder: (context, index) => InkWell(
+                              onTap: () {
+                                context.read<MainBloc>().add(ProvisionDevice(
+                                    wifi: state.wifi[index],
+                                    passphrase: passphraseController.text,
+                                    device: state.devices[index],
+                                    proofOfPossession:
+                                        proofOfPosController.text));
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    state.wifi[index].ssid,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     ListView.separated(

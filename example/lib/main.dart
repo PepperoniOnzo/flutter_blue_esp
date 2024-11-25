@@ -19,12 +19,6 @@ class _MyAppState extends State<MyApp> {
   final TextEditingController passphraseController = TextEditingController();
 
   @override
-  void initState() {
-    proofOfPosController.text = 'abcd1234';
-    super.initState();
-  }
-
-  @override
   void dispose() {
     proofOfPosController.dispose();
     passphraseController.dispose();
@@ -115,6 +109,7 @@ class _MyAppState extends State<MyApp> {
                           "Found Networks:",
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
+                        const SizedBox(height: 10),
                         Expanded(
                           child: ListView.separated(
                             itemCount: state.wifi.length,
@@ -147,7 +142,7 @@ class _MyAppState extends State<MyApp> {
                       ],
                     ),
                     ListView.separated(
-                      separatorBuilder: (context, index) => SizedBox(height: 5),
+                      separatorBuilder: (context, index) => const SizedBox(height: 5),
                       itemBuilder: (context, index) => Text(
                         state.logs[index],
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(

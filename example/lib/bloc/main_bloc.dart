@@ -21,6 +21,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       ScanDevices event, Emitter<MainState> emit) async {
     emit(state.copyWith(
         selectedDevice: () => null,
+        devices: [],
         logs: List.from(state.logs)..add('Start scanning for devices.')));
 
     try {
@@ -43,6 +44,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
       ScanDeviceWifi event, Emitter<MainState> emit) async {
     emit(state.copyWith(
         selectedDevice: () => event.device,
+        wifi: [],
         logs: List.from(state.logs)..add('Start scanning for device WiFi.')));
 
     try {

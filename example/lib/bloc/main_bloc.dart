@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_blue_esp/flutter_blue_esp.dart';
 import 'package:meta/meta.dart';
 
@@ -22,6 +23,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     emit(state.copyWith(
         selectedDevice: () => null,
         devices: [],
+        wifi: [],
         logs: List.from(state.logs)..add('Start scanning for devices.')));
 
     try {
@@ -35,6 +37,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
                     (e) => "${e.name} ${e.address}",
                   ).join('\n')}.',
             )));
+    } on PlatformException catch (e) {
+      emit(state.copyWith(
+          message: "CODE: ${e.code}\nMESSAGE: ${e.message}",
+          logs: List.from(state.logs)..add('ERROR: $e.')));
     } on Exception catch (e) {
       emit(state.copyWith(logs: List.from(state.logs)..add('ERROR: $e.')));
     }
@@ -60,6 +66,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
                     (e) => e.ssid,
                   ).join('\n')}.',
             )));
+    } on PlatformException catch (e) {
+      emit(state.copyWith(
+          message: "CODE: ${e.code}\nMESSAGE: ${e.message}",
+          logs: List.from(state.logs)..add('ERROR: $e.')));
     } on Exception catch (e) {
       emit(state.copyWith(logs: List.from(state.logs)..add('ERROR: $e.')));
     }
@@ -79,12 +89,17 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
       if (provisioned) {
         emit(state.copyWith(
+            message: 'Successfully provisioned device.',
             logs: List.from(state.logs)
               ..add('Successfully provisioned device.')));
       } else {
         emit(state.copyWith(
             logs: List.from(state.logs)..add('Failed to provision device.')));
       }
+    } on PlatformException catch (e) {
+      emit(state.copyWith(
+          message: "CODE: ${e.code}\nMESSAGE: ${e.message}",
+          logs: List.from(state.logs)..add('ERROR: $e.')));
     } on Exception catch (e) {
       emit(state.copyWith(logs: List.from(state.logs)..add('ERROR: $e.')));
     }

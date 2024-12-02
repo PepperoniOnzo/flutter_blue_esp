@@ -30,7 +30,17 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: BlocProvider(
         create: (context) => MainBloc(),
-        child: BlocBuilder<MainBloc, MainState>(
+        child: BlocConsumer<MainBloc, MainState>(
+          listener: (context, state) {
+            if (state.message.isNotEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                state.message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold, color: Colors.white),
+              )));
+            }
+          },
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(
@@ -120,7 +130,6 @@ class _MyAppState extends State<MyApp> {
                                 context.read<MainBloc>().add(ProvisionDevice(
                                     wifi: state.wifi[index],
                                     passphrase: passphraseController.text,
-                                    device: state.devices[index],
                                     proofOfPossession:
                                         proofOfPosController.text));
                               },
@@ -142,7 +151,8 @@ class _MyAppState extends State<MyApp> {
                       ],
                     ),
                     ListView.separated(
-                      separatorBuilder: (context, index) => const SizedBox(height: 5),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 5),
                       itemBuilder: (context, index) => Text(
                         state.logs[index],
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(

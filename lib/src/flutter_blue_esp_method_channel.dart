@@ -58,7 +58,7 @@ class MethodChannelFlutterBlueEsp extends FlutterBlueEspPlatform {
     required String proofOfPossession,
   }) async {
     final scanResult = await methodChannel
-        .invokeMethod<String>(ChannelConstants.methodProvisionDevice, {
+        .invokeMethod<bool>(ChannelConstants.methodProvisionDevice, {
       "ssid": ssid,
       "passphrase": passphrase,
       "deviceName": deviceName,
@@ -67,6 +67,6 @@ class MethodChannelFlutterBlueEsp extends FlutterBlueEspPlatform {
 
     if (scanResult is! bool) return false;
 
-    return scanResult as bool;
+    return scanResult;
   }
 }

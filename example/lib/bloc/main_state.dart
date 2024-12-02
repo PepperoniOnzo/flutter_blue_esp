@@ -7,6 +7,7 @@ final class MainState {
     this.logs = const [],
     this.wifi = const [],
     this.selectedDevice,
+    this.message = '',
   });
 
   final List<String> logs;
@@ -14,13 +15,17 @@ final class MainState {
   final DeviceDto? selectedDevice;
   final List<WiFiDto> wifi;
 
+  final String message;
+
   MainState copyWith({
     List<String>? logs,
     List<DeviceDto>? devices,
     List<WiFiDto>? wifi,
     ValueGetter<DeviceDto?>? selectedDevice,
+    String message = '',
   }) =>
       MainState(
+        message: message,
         selectedDevice:
             selectedDevice == null ? this.selectedDevice : selectedDevice(),
         logs: logs ?? this.logs,

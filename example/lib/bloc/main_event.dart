@@ -19,12 +19,10 @@ final class ProvisionDevice extends MainEvent {
   ProvisionDevice({
     required this.wifi,
     required this.passphrase,
-    required this.device,
     required this.proofOfPossession,
   });
 
   final WiFiDto wifi;
   final String passphrase;
-  final DeviceDto device;
   final String proofOfPossession;
 }
